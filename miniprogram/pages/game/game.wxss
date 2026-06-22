@@ -1,0 +1,225 @@
+/* game.wxss - 游戏主页面 */
+
+.game-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #E8F5E9;
+}
+
+.loading-overlay,
+.error-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 8rpx solid #E0E0E0;
+  border-top-color: #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 32rpx;
+  font-size: 30rpx;
+  color: #666;
+}
+
+.error-icon {
+  font-size: 100rpx;
+  margin-bottom: 24rpx;
+}
+
+.error-text {
+  font-size: 30rpx;
+  color: #F44336;
+  margin-bottom: 40rpx;
+  text-align: center;
+  padding: 0 48rpx;
+}
+
+.retry-btn {
+  padding: 20rpx 64rpx;
+  background: #4CAF50;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+
+/* 头部 */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 32rpx;
+  background: #fff;
+}
+
+.level-text {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.timer {
+  padding: 8rpx 24rpx;
+  background: #E8F5E9;
+  border-radius: 20rpx;
+}
+
+.timer.warning {
+  background: #FFF3E0;
+}
+
+.timer-text {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.timer.warning .timer-text {
+  color: #FF9800;
+}
+
+.progress-text {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 得分条(过程计分可视化) */
+.score-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 32rpx;
+  background: #fff;
+  border-top: 1rpx solid #E5E5E5;
+}
+
+.score-label {
+  font-size: 26rpx;
+  color: #86909C;
+  margin-right: 12rpx;
+}
+
+.score-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4CAF50;
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.15s ease;
+}
+
+.score-num.pulse {
+  transform: scale(1.15);
+}
+
+/* 卡牌区域 */
+.cards-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.card-wrapper {
+  width: 25%;
+  height: 0;
+  padding-bottom: 25%;
+  position: relative;
+  margin: 6rpx;
+}
+
+.card-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.card-wrapper.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-back,
+.card-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.card-back {
+  background: #4CAF50;
+}
+
+.card-back-icon {
+  font-size: 44rpx;
+  color: #fff;
+  font-weight: bold;
+}
+
+.card-front {
+  background: #fff;
+  transform: rotateY(180deg);
+}
+
+.card-icon {
+  font-size: 52rpx;
+}
+
+.card-wrapper.matched .card-front {
+  background: #C8E6C9;
+  border: 2rpx solid #4CAF50;
+}
+
+/* 底部操作栏 */
+.game-footer {
+  padding: 20rpx 32rpx;
+  text-align: center;
+  background: #fff;
+}
+
+.game-footer button {
+  display: inline-block;
+  padding: 16rpx 48rpx;
+  background: #f5f5f5;
+  color: #4CAF50;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+  border: 2rpx solid #4CAF50;
+}

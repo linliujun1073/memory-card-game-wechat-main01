@@ -1,0 +1,57 @@
+<!-- game.wxml - 游戏主页面 -->
+<view class="game-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-overlay">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">游戏加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view wx:if="{{error}}" class="error-overlay">
+    <text class="error-icon">❌</text>
+    <text class="error-text">{{error}}</text>
+    <button class="retry-btn" bindtap="initGame">重新加载</button>
+  </view>
+
+  <!-- 游戏头部信息 -->
+  <view class="game-header">
+    <text class="level-text">第 {{levelId}} 关</text>
+    <view class="timer {{remainingTime <= 10 ? 'warning' : ''}}">
+      <text class="timer-text">{{remainingTime}}s</text>
+    </view>
+    <text class="progress-text">{{matchedPairs}} / {{pairs}}</text>
+  </view>
+
+  <!-- 当前得分(过程中动态变化,符合课要求) -->
+  <view class="score-bar">
+    <text class="score-label">当前得分</text>
+    <text class="score-num">{{score}}</text>
+  </view>
+
+  <!-- 卡牌区域 -->
+  <view class="cards-container">
+    <view class="cards-grid">
+      <view
+        wx:for="{{cards}}"
+        wx:key="id"
+        class="card-wrapper {{item.isFlipped || item.isMatched ? 'flipped' : ''}} {{item.isMatched ? 'matched' : ''}}"
+        data-card-id="{{item.id}}"
+        bindtap="onCardTap"
+      >
+        <view class="card-inner">
+          <view class="card-back">
+            <text class="card-back-icon">?</text>
+          </view>
+          <view class="card-front">
+            <text class="card-icon">{{item.icon}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="game-footer">
+    <button bindtap="onShowPause">暂停</button>
+  </view>
+</view>

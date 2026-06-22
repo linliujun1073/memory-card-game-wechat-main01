@@ -1,0 +1,67 @@
+<!-- result.wxml - 结果页面 -->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 结果内容 -->
+  <view class="result-content" wx:if="{{!loading}}">
+    <view class="result-icon {{isWin ? 'win' : 'lose'}}">
+      <text>{{isWin ? '🎉' : '😢'}}</text>
+    </view>
+
+    <text class="result-title">{{isWin ? '恭喜通关！' : '时间耗尽'}}</text>
+    <text class="result-subtitle">{{isWin ? '太棒了！' : '再接再厉！'}}</text>
+
+    <!-- 分数卡片 -->
+    <view class="score-card">
+      <view class="score-row">
+        <text class="score-label">本局得分</text>
+        <text class="score-value primary">{{score}}</text>
+      </view>
+      <view class="score-divider"></view>
+      <view class="score-row">
+        <text class="score-label">历史最高</text>
+        <text class="score-value">{{highestScore}}</text>
+      </view>
+      <view class="score-divider"></view>
+      <view class="score-row">
+        <text class="score-label">已通关</text>
+        <text class="score-value">{{levelProgress}} / 3 关</text>
+      </view>
+    </view>
+
+    <!-- 排行榜(课要求加分项) -->
+    <view class="leaderboard" wx:if="{{leaderboard.length > 0}}">
+      <text class="lb-title">🏆 排行榜 Top {{leaderboard.length}}</text>
+      <view class="lb-list">
+        <view
+          wx:for="{{leaderboard}}"
+          wx:key="createTime"
+          class="lb-item {{item.rank <= 3 ? 'lb-top' : ''}}"
+        >
+          <text class="lb-rank">{{item.rank}}</text>
+          <view class="lb-mid">
+            <text class="lb-level">第 {{item.level}} 关</text>
+            <text class="lb-time">{{item.createTimeText}}</text>
+          </view>
+          <text class="lb-score">{{item.score}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 按钮组 -->
+    <view class="button-group">
+      <button wx:if="{{isWin && levelId < 3}}" class="btn btn-primary btn-large" bindtap="onNextLevel">
+        下一关
+      </button>
+      <button class="btn btn-secondary {{isWin ? '' : 'btn-large'}}" bindtap="onRestart">
+        {{isWin ? '再玩一次' : '重新挑战' }}
+      </button>
+      <button class="btn btn-secondary" bindtap="onGoHome">
+        返回首页
+      </button>
+    </view>
+  </view>
+</view>
