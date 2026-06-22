@@ -1,0 +1,13 @@
+/**app.wxss - 全局样式**/
+@import './styles/common.wxss';
+
+/* 全局按钮重置 */
+button {
+  background: initial;
+  padding: 0;
+  margin: 0;
+}
+
+button::after {
+  border: none;
+}
