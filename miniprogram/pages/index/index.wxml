@@ -1,0 +1,33 @@
+<!--index.wxml-->
+<view class="page">
+  <view class="header">
+    <text class="title">记忆翻牌</text>
+    <text class="sub">挑战你的记忆力</text>
+  </view>
+
+  <view class="user-section" bindtap="onUserTap">
+    <view class="user-avatar">
+      <image wx:if="{{userInfo && userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" class="avatar-img" mode="aspectFill" />
+      <view wx:else class="avatar-placeholder">
+        <text class="avatar-icon">👤</text>
+      </view>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo ? userInfo.nickName : '点击登录'}}</text>
+      <text class="user-desc">{{userInfo ? '当前用户' : '获取用户身份以保存游戏记录'}}</text>
+    </view>
+  </view>
+
+  <view class="score-box">
+    <text>最高分: {{highestScore}}</text>
+    <text>已通关: {{levelProgress}} / 3</text>
+  </view>
+
+  <button class="start-btn" bindtap="onStartGame">开始游戏</button>
+  <button class="rule-btn" bindtap="onShowRules">游戏规则</button>
+  <button class="leaderboard-btn" bindtap="onShowLeaderboard">📊 排行榜</button>
+  <button class="settings-btn" bindtap="onShowSettings">⚙️ 设置</button>
+  
+  <button class="share-btn" open-type="share">📤 分享给好友</button>
+  <button class="profile-btn" bindtap="onShowProfile">👤 个人中心</button>
+</view>

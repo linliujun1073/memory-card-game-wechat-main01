@@ -1,0 +1,280 @@
+/**profile.wxss**/
+.page {
+  background: #F5F5F5;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  padding: 48rpx 32rpx;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+  margin-right: 24rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.5);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 56rpx;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.user-desc {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-arrow {
+  font-size: 40rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stats-card {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  margin: -32rpx 24rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 32rpx 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.stat-divider {
+  width: 2rpx;
+  background: #E5E5E5;
+}
+
+.section {
+  background: #fff;
+  margin: 0 24rpx 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+}
+
+.section-badge {
+  font-size: 24rpx;
+  color: #4CAF50;
+  background: #E8F5E9;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  margin-right: 16rpx;
+}
+
+.section-arrow {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.achievements-list {
+  padding: 16rpx 24rpx;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.achievement-item:last-child {
+  border-bottom: none;
+}
+
+.achievement-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.achievement-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.achievement-status {
+  font-size: 24rpx;
+  color: #4CAF50;
+}
+
+.scores-list {
+  padding: 0 24rpx;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.score-item:last-child {
+  border-bottom: none;
+}
+
+.score-left {
+  flex: 1;
+}
+
+.score-level {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.score-time {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.score-right {
+  text-align: right;
+}
+
+.score-value {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 4rpx;
+}
+
+.score-points {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.screenshots-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16rpx 24rpx;
+}
+
+.screenshot-item {
+  width: 180rpx;
+  height: 180rpx;
+  margin: 0 16rpx 16rpx 0;
+  border-radius: 12rpx;
+}
+
+.screenshot-item:nth-child(3n) {
+  margin-right: 0;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 48rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.menu-list {
+  padding: 0 24rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #999;
+}

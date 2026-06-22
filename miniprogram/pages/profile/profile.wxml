@@ -1,0 +1,105 @@
+<!--profile.wxml-->
+<view class="page">
+  <view class="user-header" bindtap="onUserTap">
+    <view class="user-avatar">
+      <image wx:if="{{userInfo && userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" class="avatar-img" mode="aspectFill" />
+      <view wx:else class="avatar-placeholder">
+        <text class="avatar-icon">👤</text>
+      </view>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo ? userInfo.nickName : '点击登录'}}</text>
+      <text class="user-desc">{{userInfo ? '点击修改用户信息' : '获取用户身份以保存游戏记录'}}</text>
+    </view>
+    <view class="user-arrow">›</view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{progress.highestScore || 0}}</text>
+      <text class="stat-label">最高分</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{progress.highestLevel || 0}}</text>
+      <text class="stat-label">最高关卡</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{progress.totalWins || 0}}</text>
+      <text class="stat-label">通关次数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{progress.currentStreak || 0}}</text>
+      <text class="stat-label">连胜</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header" bindtap="onShowAchievements">
+      <text class="section-title">🏆 成就</text>
+      <text class="section-badge">{{unlockedCount}}/{{totalCount}}</text>
+      <text class="section-arrow">{{showAchievements ? '▲' : '▼'}}</text>
+    </view>
+    <view wx:if="{{showAchievements}}" class="achievements-list">
+      <view wx:for="{{achievements}}" wx:key="id" class="achievement-item" style="{{item.unlocked ? 'opacity: 1' : 'opacity: 0.4'}}">
+        <text class="achievement-icon">{{item.unlocked ? item.icon : '🔒'}}</text>
+        <view class="achievement-info">
+          <text class="achievement-name">{{item.name}}</text>
+          <text class="achievement-desc">{{item.description}}</text>
+        </view>
+        <text wx:if="{{item.unlocked}}" class="achievement-status">已解锁</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">📊 最近成绩</text>
+    </view>
+    <view wx:if="{{recentScores.length > 0}}" class="scores-list">
+      <view wx:for="{{recentScores}}" wx:key="createTime" class="score-item">
+        <view class="score-left">
+          <text class="score-level">第{{item.level}}关</text>
+          <text class="score-time">{{formatTime(item.createTime)}}</text>
+        </view>
+        <view class="score-right">
+          <text class="score-value" style="{{item.isWin ? 'color: #4CAF50' : 'color: #F44336'}}">{{item.isWin ? '胜利' : '失败'}}</text>
+          <text class="score-points">{{item.score}}分</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-tip">
+      <text>暂无游戏记录</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header" bindtap="onViewScreenshots">
+      <text class="section-title">📸 游戏截图</text>
+      <text class="section-arrow">›</text>
+    </view>
+    <view wx:if="{{screenshots.length > 0}}" class="screenshots-grid">
+      <image wx:for="{{screenshots}}" wx:key="fileID" src="{{item.fileID}}" class="screenshot-item" mode="aspectFill" bindtap="onViewScreenshots" />
+    </view>
+    <view wx:else class="empty-tip">
+      <text>暂无截图</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="menu-list">
+      <view class="menu-item" catchtap="onShare">
+        <text class="menu-icon">📤</text>
+        <text class="menu-text">分享给好友</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onClearData">
+        <text class="menu-icon">🗑️</text>
+        <text class="menu-text">清除数据</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+</view>
