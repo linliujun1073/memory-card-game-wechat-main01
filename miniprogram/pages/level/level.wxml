@@ -1,0 +1,72 @@
+<!-- level.wxml - 选关页面 -->
+<view class="container">
+  <!-- 标题 -->
+  <view class="header">
+    <text class="title">选择关卡</text>
+    <text class="subtitle">选择一个难度开始挑战</text>
+  </view>
+
+  <!-- 难度选择 -->
+  <view class="difficulty-section">
+    <text class="section-title">🎯 选择难度</text>
+    <view class="difficulty-list">
+      <view
+        wx:for="{{difficultyList}}"
+        wx:key="key"
+        class="difficulty-item {{item.key === currentDifficulty ? 'active' : ''}}"
+        style="{{item.key === currentDifficulty ? 'border-color: ' + item.color + '; background: ' + item.color + '15' : ''}}"
+        data-difficulty="{{item.key}}"
+        bindtap="onSelectDifficulty"
+      >
+        <text class="difficulty-icon">{{item.icon}}</text>
+        <text class="difficulty-name" style="{{item.key === currentDifficulty ? 'color: ' + item.color : ''}}">{{item.name}}</text>
+        <text class="difficulty-desc">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 当前难度信息 -->
+  <view class="current-difficulty-info" wx:if="{{currentDifficultyConfig}}">
+    <text class="info-text">当前难度：{{currentDifficultyConfig.name}} {{currentDifficultyConfig.icon}}</text>
+  </view>
+
+  <!-- 关卡列表 -->
+  <view class="level-list" wx:if="{{!loading && levels.length > 0}}">
+    <text class="section-title">📋 关卡列表</text>
+    <view
+      wx:for="{{levels}}"
+      wx:key="id"
+      class="level-item {{item.unlocked ? 'unlocked' : 'locked'}}"
+      data-level-id="{{item.id}}"
+      bindtap="onSelectLevel"
+    >
+      <!-- 关卡信息 -->
+      <view class="level-info">
+        <view class="level-header">
+          <text class="level-name">第 {{item.id}} 关</text>
+          <view class="level-badge">
+            <text class="badge-text">{{item.pairs}}对</text>
+          </view>
+        </view>
+        <text class="level-desc">{{item.time}}秒 · 基础分 {{item.baseScore}}</text>
+      </view>
+
+      <!-- 状态标识 -->
+      <view class="level-status">
+        <text wx:if="{{item.passed}}" class="status-passed">已通关</text>
+        <text wx:elif="{{item.unlocked}}" class="status-ready">可挑战</text>
+        <text wx:else class="status-locked">🔒</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="back-button" wx:if="{{!loading}}">
+    <button class="btn btn-secondary" bindtap="onGoBack">返回首页</button>
+  </view>
+</view>

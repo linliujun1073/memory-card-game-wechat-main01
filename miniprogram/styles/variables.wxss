@@ -1,0 +1,262 @@
+/* 全局样式变量 - 统一游戏风格 */
+
+/* ==================== 色彩方案 ==================== */
+:root {
+  /* 主色调 */
+  --primary-color: #4CAF50;
+  --primary-dark: #388E3C;
+  --primary-light: #66BB6A;
+  
+  /* 辅助色 */
+  --secondary-color: #667eea;
+  --secondary-dark: #5a6fd6;
+  
+  /* 成功/失败 */
+  --success-color: #4CAF50;
+  --error-color: #F44336;
+  --warning-color: #FF9800;
+  
+  /* 中性色 */
+  --bg-primary: #E8F5E9;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #1D2129;
+  --text-secondary: #646A73;
+  --text-muted: #8F959E;
+  --border-color: #E5E6EB;
+  
+  /* 排行榜特殊色 */
+  --gold-color: #FFD700;
+  --silver-color: #C0C0C0;
+  --bronze-color: #CD7F32;
+}
+
+/* ==================== 字体方案 ==================== */
+.font-family-primary {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.font-size-xs { font-size: 22rpx; }
+.font-size-sm { font-size: 26rpx; }
+.font-size-base { font-size: 28rpx; }
+.font-size-lg { font-size: 32rpx; }
+.font-size-xl { font-size: 36rpx; }
+.font-size-2xl { font-size: 40rpx; }
+.font-size-3xl { font-size: 48rpx; }
+.font-size-4xl { font-size: 56rpx; }
+
+.font-weight-normal { font-weight: 400; }
+.font-weight-medium { font-weight: 500; }
+.font-weight-bold { font-weight: 700; }
+
+/* ==================== 间距系统 ==================== */
+.space-xs { margin: 8rpx; }
+.space-sm { margin: 16rpx; }
+.space-md { margin: 24rpx; }
+.space-lg { margin: 32rpx; }
+.space-xl { margin: 48rpx; }
+.space-2xl { margin: 64rpx; }
+
+.padding-xs { padding: 8rpx; }
+.padding-sm { padding: 16rpx; }
+.padding-md { padding: 24rpx; }
+.padding-lg { padding: 32rpx; }
+.padding-xl { padding: 48rpx; }
+
+/* ==================== 圆角系统 ==================== */
+.rounded-sm { border-radius: 8rpx; }
+.rounded-md { border-radius: 12rpx; }
+.rounded-lg { border-radius: 16rpx; }
+.rounded-xl { border-radius: 24rpx; }
+.rounded-full { border-radius: 50%; }
+.rounded-btn { border-radius: 44rpx; }
+
+/* ==================== 阴影系统 ==================== */
+.shadow-sm { box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06); }
+.shadow-md { box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08); }
+.shadow-lg { box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.12); }
+.shadow-xl { box-shadow: 0 12rpx 48rpx rgba(0, 0, 0, 0.16); }
+
+/* ==================== 按钮样式 ==================== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-color);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.btn-disabled {
+  background: #E0E0E0;
+  color: #999;
+}
+
+/* ==================== 卡片样式 ==================== */
+.card {
+  background: var(--bg-secondary);
+  border-radius: var(--rounded-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: var(--padding-lg);
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.card-body {
+  padding: var(--padding-lg);
+}
+
+.card-footer {
+  padding: var(--padding-md);
+  background: #FAFAFA;
+}
+
+/* ==================== 动画效果 ==================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-slide-up { animation: slideUp 0.4s ease-out; }
+.animate-scale-in { animation: scaleIn 0.3s ease-out; }
+.animate-bounce { animation: bounce 0.5s ease-in-out; }
+.animate-pulse { animation: pulse 2s infinite; }
+
+/* ==================== 文本样式 ==================== */
+.text-primary { color: var(--primary-color); }
+.text-success { color: var(--success-color); }
+.text-error { color: var(--error-color); }
+.text-warning { color: var(--warning-color); }
+.text-muted { color: var(--text-muted); }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ==================== 布局工具 ==================== */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-1 { flex: 1; }
+.flex-wrap { flex-wrap: wrap; }
+
+.gap-xs { gap: 8rpx; }
+.gap-sm { gap: 16rpx; }
+.gap-md { gap: 24rpx; }
+.gap-lg { gap: 32rpx; }
+
+/* ==================== 状态样式 ==================== */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state {
+  padding: 80rpx 32rpx;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ==================== 游戏特定样式 ==================== */
+.game-bg {
+  background: linear-gradient(180deg, var(--bg-primary) 0%, #F1F8E9 100%);
+}
+
+.card-flip {
+  perspective: 1000rpx;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rounded-lg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* ==================== 响应式 ==================== */
+@media screen and (max-width: 750rpx) {
+  .container {
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+  }
+}

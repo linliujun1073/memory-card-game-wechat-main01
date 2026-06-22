@@ -1,0 +1,209 @@
+/* level.wxss - 选关页面 */
+@import '../../styles/common.wxss';
+
+.container {
+  min-height: 100vh;
+  padding: 32rpx;
+  background: #E8F5E9;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48rpx;
+  padding-top: 32rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #86909C;
+}
+
+.level-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.level-item {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  margin-bottom: 24rpx;
+}
+
+.level-item:last-child {
+  margin-bottom: 0;
+}
+
+.level-item.unlocked:active {
+  opacity: 0.9;
+}
+
+.level-item.locked {
+  opacity: 0.6;
+  background: #F5F5F5;
+}
+
+.level-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.level-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.level-name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1D2129;
+  margin-right: 16rpx;
+}
+
+.stars {
+  display: flex;
+}
+
+.star {
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+
+.level-desc {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.level-status {
+  min-width: 100rpx;
+  text-align: right;
+}
+
+.status-passed {
+  font-size: 24rpx;
+  color: #00B42A;
+}
+
+.status-ready {
+  font-size: 24rpx;
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.status-locked {
+  font-size: 36rpx;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100rpx;
+  color: #86909C;
+  font-size: 28rpx;
+}
+
+.back-button {
+  margin-top: 48rpx;
+}
+
+.back-button .btn {
+  width: 100%;
+}
+
+/* 难度选择 */
+.difficulty-section {
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.difficulty-list {
+  display: flex;
+  gap: 20rpx;
+}
+
+.difficulty-item {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+  border: 4rpx solid transparent;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.difficulty-item:active {
+  transform: scale(0.98);
+}
+
+.difficulty-item.active {
+  border-width: 4rpx;
+}
+
+.difficulty-icon {
+  font-size: 48rpx;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.difficulty-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1D2129;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.difficulty-desc {
+  font-size: 22rpx;
+  color: #86909C;
+  display: block;
+}
+
+.current-difficulty-info {
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+  margin-bottom: 24rpx;
+  text-align: center;
+}
+
+.info-text {
+  font-size: 26rpx;
+  color: #646A73;
+}
+
+.level-badge {
+  background: #F5F5F5;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+}
+
+.badge-text {
+  font-size: 22rpx;
+  color: #646A73;
+}
