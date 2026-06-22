@@ -1,0 +1,219 @@
+<!-- settings.wxml - 设置页面 -->
+<scroll-view class="container" scroll-y>
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">⚙️ 设置</text>
+    <text class="subtitle">管理游戏配置与数据</text>
+  </view>
+
+  <!-- 游戏设置 -->
+  <view class="section">
+    <text class="section-title">🎮 游戏设置</text>
+    
+    <view class="setting-card">
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">音效</text>
+          <text class="setting-desc">游戏音效和背景音乐</text>
+        </view>
+        <switch 
+          class="setting-switch" 
+          checked="{{settings.soundEnabled}}"
+          bindchange="onSoundToggle"
+        />
+      </view>
+
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">震动反馈</text>
+          <text class="setting-desc">配对成功/失败时的震动</text>
+        </view>
+        <switch 
+          class="setting-switch" 
+          checked="{{settings.vibrationEnabled}}"
+          bindchange="onVibrationToggle"
+        />
+      </view>
+
+      <!-- 难度选择 -->
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">游戏难度</text>
+        </view>
+      </view>
+      <view class="difficulty-selector">
+        <view
+          wx:for="{{difficultyList}}"
+          wx:key="key"
+          class="difficulty-option {{item.key === currentDifficulty ? 'active' : ''}}"
+          style="{{item.key === currentDifficulty ? 'border-color: ' + item.color + '; background: ' + item.color + '15' : ''}}"
+          data-difficulty="{{item.key}}"
+          bindtap="onDifficultyChange"
+        >
+          <text class="difficulty-icon">{{item.icon}}</text>
+          <text class="difficulty-name" style="{{item.key === currentDifficulty ? 'color: ' + item.color : ''}}">{{item.name}}</text>
+          <text class="difficulty-desc">{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="action-btn action-btn-secondary" bindtap="onResetSettings">
+      🔄 重置设置
+    </button>
+  </view>
+
+  <!-- 数据同步管理 -->
+  <view class="section">
+    <text class="section-title">🔄 数据同步</text>
+    
+    <!-- 同步状态卡片 -->
+    <view class="sync-status-card">
+      <view class="sync-status-header">
+        <view class="status-indicator" style="background-color: {{getStatusColor(syncInfo.status)}}"></view>
+        <view class="status-info">
+          <text class="status-title">同步状态</text>
+          <text class="status-value">{{getStatusText(syncInfo.status)}}</text>
+        </view>
+      </view>
+      
+      <view class="sync-details">
+        <view class="detail-item">
+          <text class="detail-label">待同步数据</text>
+          <text class="detail-value {{pendingCount > 0 ? 'highlight' : ''}}">{{pendingCount}} 条</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">上次同步</text>
+          <text class="detail-value">{{formatTime(syncInfo.lastSyncTime)}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 同步控制 -->
+    <view class="sync-control-card">
+      <text class="card-title">同步控制</text>
+      
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">自动同步</text>
+          <text class="setting-desc">定时自动同步数据到云端</text>
+        </view>
+        <switch 
+          class="setting-switch" 
+          checked="{{syncConfig.enableAutoSync}}"
+          bindchange="onAutoSyncToggle"
+        />
+      </view>
+
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">同步间隔</text>
+          <text class="setting-desc">{{syncConfig.syncInterval}} 分钟</text>
+        </view>
+        <picker mode="selector" range="{{['5分钟', '15分钟', '30分钟', '60分钟']}}" bindchange="onSyncIntervalChange">
+          <view class="setting-picker">
+            <text class="picker-text">设置间隔</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-label">冲突解决</text>
+          <text class="setting-desc">{{syncConfig.conflictStrategy === 'timestamp_first' ? '时间戳优先' : syncConfig.conflictStrategy === 'local_first' ? '本地优先' : syncConfig.conflictStrategy === 'remote_first' ? '云端优先' : '版本号优先'}}</text>
+        </view>
+        <picker mode="selector" range="{{['时间戳优先', '本地优先', '云端优先', '版本号优先']}}" bindchange="onConflictStrategyChange">
+          <view class="setting-picker">
+            <text class="picker-text">选择策略</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 同步操作按钮 -->
+    <view class="action-buttons">
+      <button 
+        class="action-btn action-btn-primary" 
+        bindtap="onManualSync"
+        disabled="{{syncStatus === 'syncing'}}"
+      >
+        {{syncStatus === 'syncing' ? '🔄 同步中...' : '🔄 立即同步'}}
+      </button>
+      
+      <button 
+        class="action-btn action-btn-secondary" 
+        bindtap="onFullSync"
+        disabled="{{syncStatus === 'syncing'}}"
+      >
+        {{syncStatus === 'syncing' ? '同步中...' : '📦 全量同步'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 成就展示 -->
+  <view class="section">
+    <text class="section-title">🏆 成就</text>
+    
+    <view class="achievements-grid">
+      <view 
+        wx:for="{{achievements}}" 
+        wx:key="id" 
+        class="achievement-card {{item.unlocked ? 'unlocked' : 'locked'}}"
+      >
+        <text class="achievement-icon">{{item.unlocked ? item.icon : '❓'}}</text>
+        <text class="achievement-name">{{item.name}}</text>
+        <text class="achievement-desc">{{item.description}}</text>
+        <text class="achievement-status">{{item.unlocked ? '已解锁' : '未解锁'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="section">
+    <text class="section-title">📊 游戏统计</text>
+    
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-value">{{progress.highestScore}}</text>
+        <text class="stat-label">最高分</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{progress.highestLevel}}</text>
+        <text class="stat-label">最高关卡</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{progress.totalWins}}</text>
+        <text class="stat-label">通关次数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{progress.totalGames}}</text>
+        <text class="stat-label">游戏次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据管理 -->
+  <view class="section">
+    <text class="section-title">📁 数据管理</text>
+    
+    <view class="action-buttons">
+      <button class="action-btn action-btn-secondary" bindtap="onExportData">
+        📋 导出数据
+      </button>
+      
+      <button class="action-btn action-btn-secondary" bindtap="onImportData">
+        📥 导入数据
+      </button>
+    </view>
+
+    <button class="action-btn action-btn-danger" bindtap="onClearData">
+      🗑️ 清除所有数据
+    </button>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="bottom-bar">
+    <button class="btn-back" bindtap="goBack">返回</button>
+  </view>
+</scroll-view>

@@ -1,0 +1,216 @@
+<!-- leaderboard.wxml - 排行榜页面（增强版） -->
+<scroll-view 
+  class="container" 
+  scroll-y 
+  bindscrolltolower="onReachBottom"
+  bindscroll="onScroll"
+  bindscrolltoupper="onScrollUpper"
+  bindpulldownrefresh="onPullDownRefresh"
+  enablePullDownRefresh
+>
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 内容 -->
+  <view class="content" wx:if="{{!loading}}">
+    <!-- 云开发状态提示 -->
+    <view class="cloud-status-bar {{cloudStatus.initialized ? 'success' : 'warning'}}">
+      <view class="status-icon">
+        {{cloudStatus.initialized ? '✅' : '⚠️'}}
+      </view>
+      <view class="status-text">
+        <text class="status-title">
+          {{cloudStatus.initialized ? '云存储已连接' : '使用本地存储'}}
+        </text>
+        <text class="status-desc" wx:if="{{!cloudStatus.initialized}}">
+          请配置云开发环境ID以启用云端同步
+        </text>
+        <text class="status-desc" wx:if="{{cloudStatus.initialized && pendingSyncCount > 0}}">
+          {{pendingSyncCount}} 条数据待同步
+        </text>
+      </view>
+      <view class="sync-buttons" wx:if="{{cloudStatus.initialized}}">
+        <button 
+          wx:if="{{pendingSyncCount > 0}}"
+          class="sync-btn sync-btn-primary {{syncing ? 'syncing' : ''}}"
+          bindtap="onSyncPending"
+          disabled="{{syncing}}"
+        >
+          {{syncing ? '同步中...' : '同步'}}
+        </button>
+        <button 
+          class="sync-btn sync-btn-secondary {{syncing ? 'syncing' : ''}}"
+          bindtap="onFullSync"
+          disabled="{{syncing}}"
+        >
+          {{syncing ? '同步中...' : '全量同步'}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 头部统计 -->
+    <view class="stats-card">
+      <view class="stat-item">
+        <text class="stat-value">{{highestScore}}</text>
+        <text class="stat-label">历史最高分</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{leaderboard.length}}</text>
+        <text class="stat-label">游戏记录</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{winCount}}</text>
+        <text class="stat-label">通关次数</text>
+      </view>
+    </view>
+
+    <!-- 难度筛选 -->
+    <view class="difficulty-filter-bar">
+      <view class="difficulty-filter-list">
+        <view
+          wx:for="{{difficultyList}}"
+          wx:key="key"
+          class="difficulty-filter-item {{item.key === currentDifficulty ? 'active' : ''}}"
+          data-difficulty="{{item.key}}"
+          bindtap="onDifficultyFilter"
+        >
+          <text class="filter-icon">{{item.icon}}</text>
+          <text class="filter-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索框 -->
+    <view class="search-bar">
+      <view class="search-input-wrapper">
+        <text class="search-icon">🔍</text>
+        <input 
+          class="search-input" 
+          placeholder="搜索关卡或分数..." 
+          value="{{searchKeyword}}"
+          bindinput="onSearchInput"
+        />
+        <text 
+          wx:if="{{searchKeyword}}" 
+          class="search-clear" 
+          bindtap="onClearSearch"
+        >✕</text>
+      </view>
+    </view>
+
+    <!-- 筛选栏 -->
+    <view class="filter-bar">
+      <view class="filter-group">
+        <text class="filter-label">关卡:</text>
+        <view class="filter-options">
+          <view 
+            wx:for="{{[{key:'all',label:'全部'},{key:'1',label:'第1关'},{key:'2',label:'第2关'},{key:'3',label:'第3关'}]}}" 
+            wx:key="key"
+            class="filter-option {{filterLevel === item.key ? 'active' : ''}}"
+            data-level="{{item.key}}"
+            bindtap="onLevelFilter"
+          >
+            {{item.label}}
+          </view>
+        </view>
+      </view>
+      <view class="filter-group">
+        <text class="filter-label">状态:</text>
+        <view class="filter-options">
+          <view 
+            wx:for="{{[{key:'all',label:'全部'},{key:'win',label:'通关'},{key:'lose',label:'失败'}]}}" 
+            wx:key="key"
+            class="filter-option {{filterStatus === item.key ? 'active' : ''}}"
+            data-status="{{item.key}}"
+            bindtap="onStatusFilter"
+          >
+            {{item.label}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 排行榜标题 -->
+    <view class="section-header">
+      <text class="section-title">🏆 排行榜</text>
+      <text class="section-subtitle">
+        {{isSearching ? '搜索结果' : '按分数降序排列'}} · 共 {{totalItems}} 条记录
+      </text>
+    </view>
+
+    <!-- 排行榜列表 -->
+    <view class="leaderboard-list">
+      <view wx:if="{{displayList && displayList.length === 0}}" class="empty-state">
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无游戏记录</text>
+        <text class="empty-hint">完成一局游戏后将显示在这里</text>
+      </view>
+
+      <view
+        wx:for="{{displayList}}"
+        wx:key="createTime"
+        class="lb-item {{item.originalRank <= 3 ? 'lb-top-' + item.originalRank : ''}}"
+      >
+        <!-- 排名 -->
+        <view class="lb-rank-wrapper">
+          <text class="lb-rank">{{item.rankText}}</text>
+        </view>
+        
+        <!-- 信息 -->
+        <view class="lb-info">
+          <view class="lb-main">
+            <text class="lb-level">第 {{item.level}} 关</text>
+            <view class="lb-difficulty">
+              <text class="difficulty-tag {{item.difficulty || 'normal'}}">{{item.difficulty === 'easy' ? '简单' : item.difficulty === 'hard' ? '困难' : '普通'}}</text>
+            </view>
+            <text class="lb-result {{item.isWin ? 'win' : 'lose'}}">
+              {{item.isWin ? '✅' : '❌'}}
+            </text>
+          </view>
+          <view class="lb-user">
+            <text class="lb-user-name">{{item.nickName || '玩家'}}</text>
+          </view>
+          <text class="lb-time">{{item.createTimeText}}</text>
+        </view>
+        
+        <!-- 分数 -->
+        <view class="lb-score-wrapper">
+          <text class="lb-score">{{item.score}}</text>
+          <text class="lb-score-label">分</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 分页控件 -->
+    <view class="pagination" wx:if="{{totalPages > 1}}">
+      <view 
+        class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" 
+        catchtap="onPrevPage"
+      >
+        ← 上一页
+      </view>
+      <view class="page-info">
+        第 {{currentPage}} / {{totalPages}} 页
+      </view>
+      <view 
+        class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}"
+        catchtap="onNextPage"
+      >
+        下一页 →
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <button class="btn-back" bindtap="onGoHome">返回</button>
+    <button class="btn-debug" bindtap="onToggleDebugPanel">
+      {{showDebugPanel ? '🔧 隐藏调试' : '🔧 调试'}}
+    </button>
+  </view>
+</scroll-view>
